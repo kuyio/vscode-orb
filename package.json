@@ -2,9 +2,9 @@
   "name": "vscode-orb",
   "displayName": "ORB Template Language Support",
   "description": "Support for the ORB template language in VSCode",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "kuyio-inc",
-  "repository": "https://github.com/Microsoft/vscode-extension-samples/helloworld-sample",
+  "repository": "https://github.com/kuyio/vscode-orb",
   "icon": "images/logo.png",
   "engines": {
     "vscode": "^1.87.0"

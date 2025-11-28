@@ -1,10 +1,10 @@
 # vscode-orb
 
-VSCode extension providing extensive support for the ORB template language.
+VSCode extension providing extensive support for the Ruby ORB template language.
 
 ## Example
 
-![Example](./images/example.png)
+![Example](https://raw.github.com/kuyio/vscode-orb/main/images/example.png)
 
 ## Features
 
@@ -40,7 +40,7 @@ This extension extends the HTML language mode with the following features:
 - Supports multi-line and selection
 - Replaces `ERB` tags with `ORB` tags if there are any ERB tags surrounding the selection
 
-## Installation
+## Development
 
 1. Install the `vsce` tool: `npm install -g @vscode/vsce`
 2. Clone this repository
