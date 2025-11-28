@@ -1,0 +1,82 @@
+{
+  "pc": {
+    "prefix": "pc",
+    "description": "insert a private comment",
+    "body": [
+      "{!-- $0 --}"
+    ]
+  },
+  "c": {
+    "prefix": "c",
+    "description": "insert a public comment",
+    "body": [
+      "<!-- $0 -->"
+    ]
+  },
+  "pe": {
+    "prefix": "pe",
+    "description": "insert a printing expression",
+    "body": [
+      "{{ $0 }}"
+    ]
+  },
+  "npe": {
+    "prefix": "npe",
+    "description": "insert a non-printing expression",
+    "body": [
+      "{% $0 %}"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "description": "insert an if statement",
+    "body": [
+      "{#if ${1:condition}}",
+      "\t$0",
+      "{/if}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "description": "insert a for loop",
+    "body": [
+      "{#for ${1:item} in ${2:items}}",
+      "\t$0",
+      "{/for}"
+    ]
+  },
+  "slot": {
+    "prefix": "slot",
+    "description": "insert a slot tag",
+    "body": [
+      "<${1:Tag}:${2:slot}>",
+      "\t$0",
+      "</${1:Tag}:${2:slot}>"
+    ]
+  },
+  "Tag": {
+    "description": "insert a tag",
+    "prefix": "t",
+    "body": [
+      "<${1:Tag}>",
+      "\t$0",
+      "</$1>"
+    ]
+  },
+  "Scoped Tag": {
+    "description": "insert a tag with a module scope",
+    "prefix": "sc",
+    "body": [
+      "<${1:Module}.${2:Name}>",
+      "\t$0",
+      "</$1.$2>"
+    ]
+  },
+  "end": {
+    "prefix": "end",
+    "description": "insert an end tag",
+    "body": [
+      "{% end %}$0"
+    ]
+  }
+}

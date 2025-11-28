@@ -1,0 +1,78 @@
+{
+  "name": "vscode-orb",
+  "displayName": "ORB Template Language Support",
+  "description": "Support for the ORB template language in VSCode",
+  "version": "0.1.0",
+  "publisher": "kuyio-inc",
+  "repository": "https://github.com/Microsoft/vscode-extension-samples/helloworld-sample",
+  "icon": "images/logo.png",
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "extensionDependencies": [
+    "vscode.html-language-features"
+  ],
+  "main": "./src/index.js",
+  "activationEvents": [
+    "onLanguage:ruby-orb",
+    "onCommand:ruby-orb.cycleTags"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "ruby-orb",
+        "aliases": [
+          "ORB"
+        ],
+        "extensions": [
+          ".orb"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/file-icon-light.png",
+          "dark": "./images/file-icon-dark.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ruby-orb",
+        "scopeName": "text.html.ruby-orb",
+        "path": "./syntaxes/ruby-orb.tmLanguage.json"
+      }
+    ],
+    "htmlLanguageParticipants": [
+      {
+        "languageId": "ruby-orb",
+        "autoInsert": true
+      }
+    ],
+    "commands": [
+      {
+        "command": "ruby-orb.cycleTags",
+        "title": "Cycle between ORB tag blocks"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "ruby-orb.cycleTags",
+        "key": "ctrl+shift+/",
+        "when": "editorTextFocus && editorLangId =~ /ruby-orb/"
+      },
+      {
+        "command": "ruby-orb.cycleTags",
+        "key": "cmd+shift+/",
+        "when": "isMac && editorTextFocus && editorLangId =~ /ruby-orb/"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "ruby-orb",
+        "path": "./snippets/ruby-orb-snippets.json"
+      }
+    ]
+  }
+}

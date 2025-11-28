@@ -1,0 +1,389 @@
+{
+  "version": "1",
+  "name": "ruby-orb",
+  "scopeName": "text.html.ruby-orb",
+  "patterns": [
+    {
+      "include": "text.html.basic#xml-processing"
+    },
+    {
+      "include": "text.html.basic#doctype"
+    },
+    {
+      "include": "text.html.basic#cdata"
+    },
+    {
+      "include": "#ruby-orb-comment"
+    },
+    {
+      "include": "#slot"
+    },
+    {
+      "include": "#component"
+    },
+    {
+      "include": "#tag"
+    },
+    {
+      "include": "#construct"
+    },
+    {
+      "include": "#print-expression"
+    },
+    {
+      "include": "#control-expression"
+    },
+    {
+      "include": "text.html.basic"
+    }
+  ],
+  "repository": {
+    "ruby-orb-comment": {
+      "begin": "\\{!--",
+      "captures": {
+        "0": {
+          "name": "punctuation.definition.comment.ruby-orb"
+        }
+      },
+      "end": "--\\}",
+      "name": "comment.block.ruby-orb",
+      "patterns": [
+        {
+          "match": "\\G-?\\}",
+          "name": "invalid.illegal.characters-not-allowed-here.ruby-orb"
+        },
+        {
+          "match": "\\{!--(?!\\})|\\{!-(?=--\\})",
+          "name": "invalid.illegal.characters-not-allowed-here.ruby-orb"
+        },
+        {
+          "match": "--!}",
+          "name": "invalid.illegal.characters-not-allowed-here.ruby-orb"
+        }
+      ]
+    },
+    "tag": {
+      "patterns": [
+        {
+          "begin": "(</?)(\\w[^\\s>]*)(?<!/)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.tag.begin.html"
+            },
+            "2": {
+              "name": "entity.name.tag.html"
+            }
+          },
+          "end": "((?: ?/)?>)",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.tag.end.html"
+            }
+          },
+          "name": "meta.tag.other.unrecognized.html.derivative",
+          "patterns": [
+            {
+              "include": "#ruby-orb-attributes"
+            }
+          ]
+        }
+      ]
+    },
+    "component": {
+      "patterns": [
+        {
+          "name": "meta.tag.other.html.derivative",
+          "begin": "(</?)([A-Z|\\#][^\\s>]*)(?<!/)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.tag.begin.html"
+            },
+            "2": {
+              "name": "entity.name.type.class.ruby"
+            }
+          },
+          "end": "((?: ?/)?>)",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.tag.end.html"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#ruby-orb-attributes"
+            }
+          ]
+        }
+      ]
+    },
+    "slot": {
+      "patterns": [
+        {
+          "name": "meta.tag.other.unrecognized.html.derivative",
+          "begin": "(</?)([A-Z][^\\s\\:]+)(\\:[^\\s>]*)(?<!/)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.tag.begin.html"
+            },
+            "2": {
+              "name": "entity.other.attribute-name.slot.parent"
+            },
+            "3": {
+              "name": "entity.other.attribute-name.slot.name"
+            }
+          },
+          "end": "((?: ?/)?>)",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.tag.end.html"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#ruby-orb-attributes"
+            }
+          ]
+        }
+      ]
+    },
+    "ruby-orb-attributes": {
+      "patterns": [
+        {
+          "include": "#interpolation"
+        },
+        {
+          "include": "#attribute"
+        }
+      ]
+    },
+    "attribute": {
+      "patterns": [
+        {
+          "begin": "([^\\x{0020}\"'<>/=\\x{0000}-\\x{001F}\\x{007F}-\\x{009F}\\x{FDD0}-\\x{FDEF}\\x{FFFE}\\x{FFFF}\\x{1FFFE}\\x{1FFFF}\\x{2FFFE}\\x{2FFFF}\\x{3FFFE}\\x{3FFFF}\\x{4FFFE}\\x{4FFFF}\\x{5FFFE}\\x{5FFFF}\\x{6FFFE}\\x{6FFFF}\\x{7FFFE}\\x{7FFFF}\\x{8FFFE}\\x{8FFFF}\\x{9FFFE}\\x{9FFFF}\\x{AFFFE}\\x{AFFFF}\\x{BFFFE}\\x{BFFFF}\\x{CFFFE}\\x{CFFFF}\\x{DFFFE}\\x{DFFFF}\\x{EFFFE}\\x{EFFFF}\\x{FFFFE}\\x{FFFFF}\\x{10FFFE}\\x{10FFFF}]+)",
+          "beginCaptures": {
+            "0": {
+              "name": "entity.other.attribute-name.html"
+            }
+          },
+          "comment": "Anything else that is valid",
+          "end": "(?=\\s*+[^=\\s])",
+          "name": "meta.attribute.unrecognized.$1.html",
+          "patterns": [
+            {
+              "include": "#attribute-value"
+            }
+          ]
+        }
+      ]
+    },
+    "attribute-value": {
+      "patterns": [
+        {
+          "begin": "=",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.separator.key-value.html"
+            }
+          },
+          "end": "(?<=[^\\s=])(?!\\s*=)|(?=/?>)",
+          "patterns": [
+            {
+              "include": "#interpolation"
+            },
+            {
+              "match": "([^\\s\"'=<>`/]|/(?!>))+",
+              "name": "string.unquoted.html"
+            },
+            {
+              "begin": "\"",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.string.begin.html"
+                }
+              },
+              "end": "\"",
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.definition.string.end.html"
+                }
+              },
+              "name": "string.quoted.double.html",
+              "patterns": [
+                {
+                  "include": "#entities"
+                }
+              ]
+            },
+            {
+              "begin": "'",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.string.begin.html"
+                }
+              },
+              "end": "'",
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.definition.string.end.html"
+                }
+              },
+              "name": "string.quoted.single.html",
+              "patterns": [
+                {
+                  "include": "#entities"
+                }
+              ]
+            },
+            {
+              "match": "=",
+              "name": "invalid.illegal.unexpected-equals-sign.html"
+            }
+          ]
+        }
+      ]
+    },
+    "entities": {
+      "patterns": [
+        {
+          "name": "constant.character.entity.html",
+          "match": "(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.entity.html"
+            },
+            "3": {
+              "name": "punctuation.definition.entity.html"
+            }
+          }
+        },
+        {
+          "name": "invalid.illegal.bad-ampersand.html",
+          "match": "&"
+        }
+      ]
+    },
+    "interpolation": {
+      "patterns": [
+        {
+          "begin": "\\{",
+          "name": "source.ruby.embedded",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.begin.ruby-orb"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.end.ruby-orb"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#expression"
+            }
+          ]
+        }
+      ]
+    },
+    "expression": {
+      "patterns": [
+        {
+          "begin": "\\{",
+          "captures": {
+            "0": {
+              "name": "punctuation.section.scope.ruby"
+            }
+          },
+          "end": "\\}",
+          "patterns": [
+            {
+              "include": "#expression"
+            }
+          ]
+        },
+        {
+          "include": "source.ruby"
+        }
+      ]
+    },
+    "print-expression": {
+      "patterns": [
+        {
+          "begin": "(\\{\\{)",
+          "name": "source.ruby",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.section.begin.ruby-orb"
+            }
+          },
+          "end": "(\\}\\})",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.end.ruby-orb"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#expression"
+            }
+          ]
+        }
+      ]
+    },
+    "control-expression": {
+      "patterns": [
+        {
+          "begin": "(\\{%)",
+          "name": "source.ruby.embedded",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.section.begin.ruby-orb"
+            }
+          },
+          "end": "(%\\})",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.end.ruby-orb"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#expression"
+            }
+          ]
+        }
+      ]
+    },
+    "construct": {
+      "patterns": [
+        {
+          "begin": "(\\{)(#|\\/)([a-z][a-zA-Z_\\d]*[^\\s|\\}])",
+          "name": "source.ruby.embedded",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.section.begin.ruby-orb"
+            },
+            "2": {
+              "name": "keyword.construct.ruby-orb"
+            },
+            "3": {
+              "name": "keyword.construct.ruby-orb"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.end.ruby-orb"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#expression"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
